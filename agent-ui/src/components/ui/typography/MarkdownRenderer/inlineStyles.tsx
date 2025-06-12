@@ -163,12 +163,12 @@ const Img = ({ src, alt }: ImgProps) => {
             target="_blank"
             className="max-w-md truncate underline"
           >
-            {src}
+            {typeof src === 'string' ? src : ''}
           </Link>
         </div>
       ) : (
         <Image
-          src={src}
+          src={typeof src === 'string' ? src : ''}
           width={96}
           height={56}
           alt={alt ?? 'Rendered image'}
