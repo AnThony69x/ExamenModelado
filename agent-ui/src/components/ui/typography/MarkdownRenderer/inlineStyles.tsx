@@ -158,7 +158,6 @@ const Img = ({ src, alt }: ImgProps) => {
   {error ? (
     <div className="flex h-40 flex-col items-center justify-center gap-2 rounded-md bg-secondary/50 text-muted">
       <Paragraph className="text-primary">Image unavailable</Paragraph>
-
       {typeof src === 'string' ? (
         <Link
           href={src}
@@ -167,13 +166,21 @@ const Img = ({ src, alt }: ImgProps) => {
         >
           {src}
         </Link>
+      ) : src instanceof Blob ? (
+        <Link
+          href={URL.createObjectURL(src)}
+          target="_blank"
+          className="max-w-md truncate underline"
+        >
+          Blob URL
+        </Link>
       ) : (
         <span className="text-sm italic text-muted-foreground">Invalid image link</span>
       )}
     </div>
   ) : (
     <Image
-      src={typeof src === 'string' ? src : ''}
+      src={typeof src === 'string' ? src : src instanceof Blob ? URL.createObjectURL(src) : ''}
       width={96}
       height={56}
       alt={alt ?? 'Rendered image'}
@@ -183,7 +190,6 @@ const Img = ({ src, alt }: ImgProps) => {
     />
   )}
 </div>
-
   )
 }
 
