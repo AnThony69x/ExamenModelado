@@ -20,4 +20,4 @@ jobs:
           action: "upload"
           app_location: "agent-ui"
           api_location: ""
-          output_location: "build"
+          output_location: ".next"
