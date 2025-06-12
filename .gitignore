@@ -12,3 +12,29 @@ venv/
 aienv/
 pip-log.txt
 pip-delete-this-directory.txt
+
+# Archivos temporales y logs
+tmp/
+temp/
+*.log
+
+# Base de datos local
+tmp/agents.db
+
+# Variables de entorno
+.env
+.env.*
+
+# VS Code y otros editores
+.vscode/
+.idea/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Node.js (si aplica)
+node_modules/
+package-lock.json
+yarn.lock

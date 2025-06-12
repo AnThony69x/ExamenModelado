@@ -9,7 +9,7 @@ from agno.tools.yfinance import YFinanceTools
 agent_storage: str = "tmp/agents.db"
 
 web_agent = Agent(
-    name="Web Agent",
+    name="Anthony Mejia",
     model=Groq(id="llama-3.3-70b-versatile"),
     tools=[DuckDuckGoTools()],
     instructions=["Always include sources"],
