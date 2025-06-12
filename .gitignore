@@ -1,5 +1,14 @@
-# Ignora archivos con claves secretas
-.env
-__pycache__
+# Python
+__pycache__/
 *.pyc
-tmp/
+*.pyo
+*.pyd
+*.py[cod]
+*.so
+.Python
+env/
+venv/
+.venv/
+aienv/
+pip-log.txt
+pip-delete-this-directory.txt
