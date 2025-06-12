@@ -3,7 +3,7 @@
 import { useState } from 'react'
 
 import Image from 'next/image'
-//import Link from 'next/link'
+import Link from 'next/link'
 
 import { cn } from '@/lib/utils'
 
@@ -28,34 +28,16 @@ import { PARAGRAPH_SIZES } from '../Paragraph/constants'
 
 const filterProps = (props: object) => {
   const newProps = { ...props }
-
-  if ('node' in newProps) {
-    delete newProps.node
-  }
-
+  if ('node' in newProps) delete newProps.node
   return newProps
 }
 
 const UnorderedList = ({ className, ...props }: UnorderedListProps) => (
-  <ul
-    className={cn(
-      className,
-      PARAGRAPH_SIZES.lead,
-      'flex list-disc flex-col pl-10'
-    )}
-    {...filterProps(props)}
-  />
+  <ul className={cn(className, PARAGRAPH_SIZES.lead, 'flex list-disc flex-col pl-10')} {...filterProps(props)} />
 )
 
 const OrderedList = ({ className, ...props }: OrderedListProps) => (
-  <ol
-    className={cn(
-      className,
-      PARAGRAPH_SIZES.lead,
-      'flex list-decimal flex-col pl-10'
-    )}
-    {...filterProps(props)}
-  />
+  <ol className={cn(className, PARAGRAPH_SIZES.lead, 'flex list-decimal flex-col pl-10')} {...filterProps(props)} />
 )
 
 const Paragraph = ({ className, ...props }: ParagraphProps) => (
@@ -63,10 +45,7 @@ const Paragraph = ({ className, ...props }: ParagraphProps) => (
 )
 
 const EmphasizedText = ({ className, ...props }: EmphasizedTextProps) => (
-  <em
-    className={cn(className, 'PARAGRAPH_SIZES.lead')}
-    {...filterProps(props)}
-  />
+  <em className={cn(className, PARAGRAPH_SIZES.lead)} {...filterProps(props)} />
 )
 
 const ItalicText = ({ className, ...props }: ItalicTextProps) => (
@@ -74,54 +53,31 @@ const ItalicText = ({ className, ...props }: ItalicTextProps) => (
 )
 
 const StrongText = ({ className, ...props }: StrongTextProps) => (
-  <strong
-    className={cn(className, 'PARAGRAPH_SIZES.lead')}
-    {...filterProps(props)}
-  />
+  <strong className={cn(className, PARAGRAPH_SIZES.lead)} {...filterProps(props)} />
 )
 
 const BoldText = ({ className, ...props }: BoldTextProps) => (
-  <b
-    className={cn(className, 'PARAGRAPH_SIZES.lead')}
-    {...filterProps(props)}
-  />
+  <b className={cn(className, PARAGRAPH_SIZES.lead)} {...filterProps(props)} />
 )
 
 const UnderlinedText = ({ className, ...props }: UnderlinedTextProps) => (
-  <u
-    className={cn(className, 'underline', PARAGRAPH_SIZES.lead)}
-    {...filterProps(props)}
-  />
+  <u className={cn(className, 'underline', PARAGRAPH_SIZES.lead)} {...filterProps(props)} />
 )
 
 const DeletedText = ({ className, ...props }: DeletedTextProps) => (
-  <del
-    className={cn(className, 'text-muted line-through', PARAGRAPH_SIZES.lead)}
-    {...filterProps(props)}
-  />
+  <del className={cn(className, 'text-muted line-through', PARAGRAPH_SIZES.lead)} {...filterProps(props)} />
 )
 
 const HorizontalRule = ({ className, ...props }: HorizontalRuleProps) => (
-  <hr
-    className={cn(className, 'mx-auto w-48 border-b border-border')}
-    {...filterProps(props)}
-  />
+  <hr className={cn(className, 'mx-auto w-48 border-b border-border')} {...filterProps(props)} />
 )
 
 const Blockquote = ({ className, ...props }: BlockquoteProps) => (
-  <blockquote
-    className={cn(className, PARAGRAPH_SIZES.lead)}
-    {...filterProps(props)}
-  />
+  <blockquote className={cn(className, PARAGRAPH_SIZES.lead)} {...filterProps(props)} />
 )
 
 const AnchorLink = ({ className, ...props }: AnchorLinkProps) => (
-  <a
-    className={cn(className, 'cursor-pointer text-xs underline')}
-    target="_blank"
-    rel="noopener noreferrer"
-    {...filterProps(props)}
-  />
+  <a className={cn(className, 'cursor-pointer text-xs underline')} target="_blank" rel="noopener noreferrer" {...filterProps(props)} />
 )
 
 const Heading1 = ({ className, ...props }: HeadingProps) => (
@@ -150,49 +106,33 @@ const Heading6 = ({ className, ...props }: HeadingProps) => (
 
 const Img = ({ src, alt }: ImgProps) => {
   const [error, setError] = useState(false)
-
   if (!src) return null
 
-  return (
-<div className="w-full max-w-xl">
-  {error ? (
-    <div className="flex h-40 flex-col items-center justify-center gap-2 rounded-md bg-secondary/50 text-muted">
-      <Paragraph className="text-primary">Image unavailable</Paragraph>
+  const srcString = typeof src === 'string' ? src : ''
 
-      {typeof src === 'string' ? (
-        <a
-          href={src}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="max-w-md truncate underline"
-        >
-          {src}
-        </a>
-      ) : src instanceof Blob ? (
-        <a
-          href={URL.createObjectURL(src)}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="max-w-md truncate underline"
-        >
-          Blob URL
-        </a>
+  return (
+    <div className="w-full max-w-xl">
+      {error ? (
+        <div className="flex h-40 flex-col items-center justify-center gap-2 rounded-md bg-secondary/50 text-muted">
+          <Paragraph className="text-primary">Image unavailable</Paragraph>
+          {srcString && (
+            <Link href={srcString} target="_blank" className="max-w-md truncate underline">
+              {srcString}
+            </Link>
+          )}
+        </div>
       ) : (
-        <span className="text-sm italic text-muted-foreground">Invalid image link</span>
+        <Image
+          src={srcString}
+          width={96}
+          height={56}
+          alt={alt ?? 'Rendered image'}
+          className="size-full rounded-md object-cover"
+          onError={() => setError(true)}
+          unoptimized
+        />
       )}
     </div>
-  ) : (
-    <Image
-      src={typeof src === 'string' ? src : src instanceof Blob ? URL.createObjectURL(src) : ''}
-      width={96}
-      height={56}
-      alt={alt ?? 'Rendered image'}
-      className="size-full rounded-md object-cover"
-      onError={() => setError(true)}
-      unoptimized
-    />
-  )}
-</div>
   )
 }
 
