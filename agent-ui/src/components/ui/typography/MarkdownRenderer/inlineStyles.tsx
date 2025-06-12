@@ -154,30 +154,36 @@ const Img = ({ src, alt }: ImgProps) => {
   if (!src) return null
 
   return (
-    <div className="w-full max-w-xl">
-      {error ? (
-        <div className="flex h-40 flex-col items-center justify-center gap-2 rounded-md bg-secondary/50 text-muted">
-          <Paragraph className="text-primary">Image unavailable</Paragraph>
-          <Link
-            href={typeof src === 'string' ? src : '#'}
-            target="_blank"
-            className="max-w-md truncate underline"
-          >
-            {typeof src === 'string' ? src : ''}
-          </Link>
-        </div>
+<div className="w-full max-w-xl">
+  {error ? (
+    <div className="flex h-40 flex-col items-center justify-center gap-2 rounded-md bg-secondary/50 text-muted">
+      <Paragraph className="text-primary">Image unavailable</Paragraph>
+
+      {typeof src === 'string' ? (
+        <Link
+          href={src}
+          target="_blank"
+          className="max-w-md truncate underline"
+        >
+          {src}
+        </Link>
       ) : (
-        <Image
-          src={typeof src === 'string' ? src : ''}
-          width={96}
-          height={56}
-          alt={alt ?? 'Rendered image'}
-          className="size-full rounded-md object-cover"
-          onError={() => setError(true)}
-          unoptimized
-        />
+        <span className="text-sm italic text-muted-foreground">Invalid image link</span>
       )}
     </div>
+  ) : (
+    <Image
+      src={typeof src === 'string' ? src : ''}
+      width={96}
+      height={56}
+      alt={alt ?? 'Rendered image'}
+      className="size-full rounded-md object-cover"
+      onError={() => setError(true)}
+      unoptimized
+    />
+  )}
+</div>
+
   )
 }
 
